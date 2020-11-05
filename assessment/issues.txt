@@ -1,4 +1,6 @@
 
+select user_id,course_id,min(date(item_start_ts)) from course_activity where date(item_start_ts)
+between date('2016-04-01')-13 and  date('2016-04-01')-7 and course_id='RMFRum1BEeWXrA6ju0fv' group by user_id,course_id;
 
 metrics b should be 6:
 
