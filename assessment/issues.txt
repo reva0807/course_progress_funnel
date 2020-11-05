@@ -1,0 +1,12 @@
+
+
+metrics b should be 6:
+
+ user_id |      course_id       |    min
+---------+----------------------+------------
+   31655 | RMFRum1BEeWXrA6ju0fv | 2016-03-20
+   68121 | RMFRum1BEeWXrA6ju0fv | 2016-03-19
+   91656 | RMFRum1BEeWXrA6ju0fv | 2016-03-22
+  107503 | RMFRum1BEeWXrA6ju0fv | 2016-03-25
+  205861 | RMFRum1BEeWXrA6ju0fv | 2016-03-20
+  226466 | RMFRum1BEeWXrA6ju0fv | 2016-03-21
