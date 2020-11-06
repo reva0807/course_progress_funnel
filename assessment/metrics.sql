@@ -37,11 +37,12 @@ user_course_completd as ( select user_id,
 ),
 user_course_progressed as (select distinct ca.user_id,ca.course_id,date(ca.item_start_ts) as item_start_date
                            from course_activity ca
+                           inner join (select distinct user_id from user_course_completd) uc
+                           on ca.user_id=uc.user_id
                            left join user_module_completed umc
                              on umc.user_id=ca.user_id
                            and umc.module_id=ca.module_id
                           where umc.user_id is null)
-
 select d.date_value,
        c.course_id,
        count(distinct cwp.user_id) as weekly_course_active,

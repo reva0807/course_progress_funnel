@@ -1,0 +1,31 @@
+
+
+1.metrics b should be 6:
+
+select user_id,course_id,min(date(item_start_ts)) from course_activity where date(item_start_ts)
+between date('2016-04-01')-13 and  date('2016-04-01')-7 and course_id='RMFRum1BEeWXrA6ju0fv' group by user_id,course_id;
+
+ user_id |      course_id       |    min
+---------+----------------------+------------
+   31655 | RMFRum1BEeWXrA6ju0fv | 2016-03-20
+   68121 | RMFRum1BEeWXrA6ju0fv | 2016-03-19
+   91656 | RMFRum1BEeWXrA6ju0fv | 2016-03-22
+  107503 | RMFRum1BEeWXrA6ju0fv | 2016-03-25
+  205861 | RMFRum1BEeWXrA6ju0fv | 2016-03-20
+  226466 | RMFRum1BEeWXrA6ju0fv | 2016-03-21
+
+2. item_id maps to multi modules, not unique in courses.
+
+postgres=# select * from course_activity where user_id=30737 and course_id='7A1yFTaREeWWBQrVFXqd' order by item_id,module_id;
+ user_id |      course_id       | item_id | module_id |      item_start_ts      |    item_complete_ts     | module_order
+---------+----------------------+---------+-----------+-------------------------+-------------------------+--------------
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | 6Zdm      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            0
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | a91A      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            3
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | Avge      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            5
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | AWp2      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            2
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | JpGj      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            4
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | VVmL      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            1
+   30737 | 7A1yFTaREeWWBQrVFXqd | 0Pax    | xNVL      | 2016-08-03 12:18:58.004 | 2016-08-03 12:23:34.003 |            6
+   30737 | 7A1yFTaREeWWBQrVFXqd | 4ahK    | 6Zdm      | 2016-08-05 10:03:57.825 | 2016-08-05 10:16:37.777 |            0
+--More--
+
