@@ -1,4 +1,3 @@
-
 with dim_date as (
         SELECT date(d) as date_value
         FROM generate_series('2016-01-01', '2016-12-31', '1 day'::interval) d ),
@@ -42,11 +41,11 @@ user_course_progressed as (select distinct ca.user_id,ca.course_id,date(ca.item_
                              on umc.user_id=ca.user_id
                            and umc.module_id=ca.module_id
                           where umc.user_id is null)
-select * from (
+
 select d.date_value,
        c.course_id,
        count(distinct cwp.user_id) as weekly_course_active,
-       count(distinct pwp.user_id) as weekly_course_retained_learners,
+       count(distinct case when cwp.user_id is NULL then NULL else pwp.user_id end) as weekly_course_retained_learners,
        count(distinct ucp.user_id) as weekly_course_progressed_learners,
        count(distinct ucc.user_id) as weekly_course_passed_learners
 from dim_date d
@@ -56,6 +55,7 @@ from dim_date d
 
   left join active_user_in_course pwp on pwp.course_id=c.course_id
   and pwp.item_start_date between d.date_value-13 and d.date_value-7
+  and cwp.user_id=pwp.user_id
 
   left join user_course_progressed ucp on ucp.course_id=c.course_id
   and  ucp.item_start_date between d.date_value-6 and d.date_value
@@ -63,7 +63,7 @@ from dim_date d
   left join user_course_completd ucc on ucc.course_id=c.course_id
   and ucc.course_complete_date between d.date_value-6 and d.date_value
 
-group by d.date_value,c.course_id ) a where date_value='2016-08-08' and course_id='7A1yFTaREeWWBQrVFXqd'
+group by d.date_value,c.course_id
 ;
 
 
